@@ -1,0 +1,46 @@
+# .travis.yml
+language: java
+os: linux
+dist: jimmy
+
+jdk:
+  - openjdk11
+  - openjdk17
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - $HOME/.m2
+
+stages:
+  - build
+  - test
+  - deploy
+    if tag IS present
+
+install: mvn -B -ntp -q dependency:go-offline
+script: mvn -B -ntp -q -DskipTests verify
+
+jobs:
+  include:
+    - stage: build
+      jdk: openjdk17
+      script:
+        - mvn -B -ntp -DskipTests package
+      before_deploy:
+        - ls -al target || true
+    - stage: test
+      jdk: openjdk11
+      script:
+        - mvn -B -ntp test
+    - stage: deploy
+      jdk: openjdk17
+      script: skip
+      deploy:
+        provider: script
+        script: bash jenkins/scripts/deliver.sh
+        on:
+          tags: true
