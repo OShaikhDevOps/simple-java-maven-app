@@ -21,6 +21,14 @@ stages:
   - deploy
     if tag IS present
 
+before_install:
+  - curl -s "https://get.sdkman.io" | bash
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  - sdk install java 21.0.4-tem || sdk use java 21.0.4-tem
+  - sdk use java 21.0.4-tem
+  - echo "JAVA_HOME=$JAVA_HOME"
+  - java -version
+  
 install: mvn -B -ntp -q dependency:go-offline
 script: mvn -B -ntp -q -DskipTests verify
 
