@@ -4,8 +4,8 @@ os: linux
 dist: jimmy
 
 jdk:
-  - openjdk11
-  - openjdk17
+  - temurin-21
+  - temurin-22
 
 branches:
   only:
