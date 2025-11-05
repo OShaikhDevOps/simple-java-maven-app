@@ -29,13 +29,13 @@ jobs:
     - stage: build
       jdk: openjdk17
       script:
-        - mvn -B -ntp -DskipTests package
+        - mvn -B -DskipTests clean package
       before_deploy:
         - ls -al target || true
     - stage: test
       jdk: openjdk11
       script:
-        - mvn -B -ntp test
+        - mvn test
     - stage: deploy
       jdk: openjdk17
       script: skip
