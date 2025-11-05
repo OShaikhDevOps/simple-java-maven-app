@@ -27,17 +27,17 @@ script: mvn -B -ntp -q -DskipTests verify
 jobs:
   include:
     - stage: build
-      jdk: openjdk17
+      jdk: temurin-21
       script:
         - mvn -B -DskipTests clean package
       before_deploy:
         - ls -al target || true
     - stage: test
-      jdk: openjdk11
+      jdk: temurin-21
       script:
         - mvn test
     - stage: deploy
-      jdk: openjdk17
+      jdk: temurin-21
       script: skip
       deploy:
         provider: script
